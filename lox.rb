@@ -1,5 +1,6 @@
 #Create a Lox module to initiate the interpretation
 module Lox
+  @had_error = false
   def self.init
     begin
       ARGF.filename
@@ -35,6 +36,7 @@ module Lox
   end
 
   def self.run(line)
+    @had_error and exit
     puts "I'm here cuz master demands of me to be."
     puts "Reading line #{line}"
   end
