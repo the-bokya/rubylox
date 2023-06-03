@@ -21,6 +21,7 @@ module Lox
       line = gets
       line.chomp!
       run line
+      @had_error = false
     end
   end
 
