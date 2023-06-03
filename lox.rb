@@ -2,7 +2,7 @@
 module Lox
   def self.init
     begin
-    ARGF.filename
+      ARGF.filename
     rescue Errno::ENOENT
       puts "No such file"
       else
@@ -15,11 +15,28 @@ module Lox
   end
 
   def self.run_prompt
-    puts "Interpreting"
+    loop do
+      print "> "
+      line = gets
+      line.chomp!
+      run line
+    end
   end
 
   def self.run_file
-    puts "Reading"
+    file = ARGF.file
+    begin
+      lines = file.readlines
+    rescue Errno::EISDIR
+      puts "#{ARGF.filename} is a directory"
+    else
+        lines.each { |line| self.run line }
+    end
+  end
+
+  def self.run(line)
+    puts "I'm here cuz master demands of me to be."
+    puts "Reading line #{line}"
   end
 end
 
