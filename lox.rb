@@ -38,6 +38,14 @@ module Lox
     puts "I'm here cuz master demands of me to be."
     puts "Reading line #{line}"
   end
+
+  def error(line, message)
+    report(line, "", message)
+  end
+
+  def report(line, where, message)
+    puts "[line #{line}] Error#{where}: #{message}"
+  end
 end
 
 # Execute the module
