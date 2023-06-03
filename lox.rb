@@ -7,16 +7,18 @@ module Lox
       puts "No such file"
       else
         if ARGF.filename == "-"
-          self.runPrompt
+          self.run_prompt
         else
-          self.runFile
+          self.run_file
         end
     end
   end
-  def self.runPrompt
+
+  def self.run_prompt
     puts "Interpreting"
   end
-  def self.runFile
+
+  def self.run_file
     puts "Reading"
   end
 end
