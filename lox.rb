@@ -6,12 +6,12 @@ module Lox
       ARGF.filename
     rescue Errno::ENOENT
       puts "No such file"
+    else
+      if ARGF.filename == "-"
+        self.run_prompt
       else
-        if ARGF.filename == "-"
-          self.run_prompt
-        else
-          self.run_file
-        end
+        self.run_file
+      end
     end
   end
 
