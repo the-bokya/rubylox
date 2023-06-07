@@ -13,7 +13,7 @@ class Scanner
       @start = @current
       scan_token
     end
-    @tokens << Token.new(TokenType::EOF, "", nil, line) # This line (tokens) will be returned
+    @tokens << Token.new(TokenType::EOF, "", nil, @line) # This line (tokens) will be returned
   end
 
   def at_end?
@@ -41,13 +41,20 @@ class Scanner
       add_token(TokenType::PLUS)
     when ';'
       add_token(TokenType::SEMICOLON)
-    when '*' 
+    when '*'
       add_token(TokenType::STAR)
     end
   end
+
   def advance
     @out = @source[@current]
     @current += 1
     @out
   end
+
+  def add_token(type, literal = nil)
+    @text = @source[@start..@current - 1]
+    @tokens << Token.new(type, @text, literal, @line)
+  end
+
 end
