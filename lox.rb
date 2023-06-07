@@ -19,9 +19,9 @@ module Lox
   def self.run_prompt
     loop do
       print "> "
-      line = gets
-      line.chomp!
-      run line
+      @line = gets
+      @line.chomp!
+      run @line
       @had_error = false
     end
   end
@@ -29,11 +29,11 @@ module Lox
   def self.run_file
     file = ARGF.file
     begin
-      lines = file.readlines
+      @lines = file.readlines
     rescue Errno::EISDIR
       puts "#{ARGF.filename} is a directory"
     else
-        lines.each { |line| self.run line }
+      @lines.each { |line| self.run line }
     end
   end
 
