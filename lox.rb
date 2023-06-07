@@ -20,8 +20,7 @@ module Lox
     loop do
       print "> "
       @line = gets
-      @line.chomp!
-      run @line
+      self.run @line
       @had_error = false
     end
   end
@@ -29,11 +28,11 @@ module Lox
   def self.run_file
     file = ARGF.file
     begin
-      @lines = file.readlines
+      @lines = file.read
     rescue Errno::EISDIR
       puts "#{ARGF.filename} is a directory"
     else
-      @lines.each { |line| self.run line }
+      self.run @lines
     end
   end
 
