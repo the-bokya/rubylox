@@ -1,3 +1,4 @@
+require "./token_type.rb"
 class Token
   def initialize(type, lexeme, literal, line)
     @type = type
