@@ -23,34 +23,49 @@ class Scanner
   def scan_token
     c = advance
     case c
-    when '('
-      add_token(TokenType::LEFT_PAREN)
-    when ')'
-      add_token(TokenType::RIGHT_PAREN)
-    when '{'
-      add_token(TokenType::LEFT_BRACE)
-    when '}'
-      add_token(TokenType::RIGHT_BRACE)
-    when ','
-      add_token(TokenType::COMMA)
-    when '.'
-      add_token(TokenType::DOT)
-    when '-'
-      add_token(TokenType::MINUS)
-    when '+'
-      add_token(TokenType::PLUS)
-    when ';'
-      add_token(TokenType::SEMICOLON)
-    when '*'
-      add_token(TokenType::STAR)
-    when '/'
-      if match '/'
-        while (peek() != '\n' and !at_end?)
+    when "("
+      add_token TokenType::LEFT_PAREN
+    when ")"
+      add_token TokenType::RIGHT_PAREN 
+    when "{"
+      add_token TokenType::LEFT_BRACE 
+    when "}"
+      add_token TokenType::RIGHT_BRACE 
+    when ","
+      add_token TokenType::COMMA 
+    when "."
+      add_token TokenType::DOT 
+    when "-"
+      add_token TokenType::MINUS 
+    when "+"
+      add_token TokenType::PLUS 
+    when ";"
+      add_token TokenType::SEMICOLON 
+    when "*"
+      add_token TokenType::STAR 
+    when "!"
+      add_token((match("=") and TokenType::BANG_EQUAL or TokenType::BANG))
+    when "="
+      add_token((match("=") and TokenType::EQUAL_EQUAL or TokenType::EQUAL))
+    when "<"
+      add_token((match("=") and TokenType::LESS_EQUAL or TokenType::LESS))
+    when ">"
+      add_token((match("=") and TokenType::GREATER_EQUAL or TokenType::GREATER))
+    when "/"
+      if match "/" #Eats up a comment
+        while (peek() != "\n" and !at_end?)
           advance
         end
+      else
+        add_token TokenType::SLASH
       end
+    when " "
+    when "\r"
+    when "\t"
+    when "\n"
+      @line += 1
     else
-      Lox.error(@line, "Unexpected character.")
+      Lox.error(@line, "Unexpected character #{c}")
     end
   end
 
@@ -74,6 +89,6 @@ class Scanner
   end
 
   def peek
-    at_end? and '\0' or @source[@current]
+    at_end? and "\0" or @source[@current]
   end
 end
