@@ -43,7 +43,8 @@ class Scanner
       add_token(TokenType::SEMICOLON)
     when '*'
       add_token(TokenType::STAR)
-    end
+    else
+      Lox.error(@line, "Unexpected character.")
   end
 
   def advance
