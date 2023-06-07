@@ -43,6 +43,12 @@ class Scanner
       add_token(TokenType::SEMICOLON)
     when '*'
       add_token(TokenType::STAR)
+    when '/'
+      if match '/'
+        while (peek() != '\n' and !at_end?)
+          advance
+        end
+      end
     else
       Lox.error(@line, "Unexpected character.")
     end
@@ -57,5 +63,13 @@ class Scanner
   def add_token(type, literal = nil)
     @text = @source[@start..@current - 1]
     @tokens << Token.new(type, @text, literal, @line)
+  end
+
+  def match (expected)
+    if at_end? or @source[@current] != expected
+      false
+    end
+    @current += 1
+    true
   end
 end
