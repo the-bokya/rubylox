@@ -42,11 +42,11 @@ module Lox
     puts "Reading line #{line}"
   end
 
-  def error(line, message)
+  def self.error(line, message)
     report(line, "", message)
   end
 
-  def report(line, where, message)
+  def self.report(line, where, message)
     puts "[line #{line}] Error#{where}: #{message}"
   end
 end
