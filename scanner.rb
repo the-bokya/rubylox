@@ -24,25 +24,25 @@ class Scanner
     c = advance
     case c
     when '('
-      addToken(TokenType::LEFT_PAREN)
+      add_token(TokenType::LEFT_PAREN)
     when ')'
-      addToken(TokenType::RIGHT_PAREN)
+      add_token(TokenType::RIGHT_PAREN)
     when '{'
-      addToken(TokenType::LEFT_BRACE)
+      add_token(TokenType::LEFT_BRACE)
     when '}'
-      addToken(TokenType::RIGHT_BRACE)
+      add_token(TokenType::RIGHT_BRACE)
     when ','
-      addToken(TokenType::COMMA)
+      add_token(TokenType::COMMA)
     when '.'
-      addToken(TokenType::DOT)
+      add_token(TokenType::DOT)
     when '-'
-      addToken(TokenType::MINUS)
+      add_token(TokenType::MINUS)
     when '+'
-      addToken(TokenType::PLUS)
+      add_token(TokenType::PLUS)
     when ';'
-      addToken(TokenType::SEMICOLON)
+      add_token(TokenType::SEMICOLON)
     when '*' 
-      addToken(TokenType::STAR)
+      add_token(TokenType::STAR)
     end
   end
   def advance
