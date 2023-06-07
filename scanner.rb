@@ -86,7 +86,6 @@ class Scanner
       @text = @source[@start..@current - 1]
       @tokens << Token.new(type, @text, literal, @line)
     else
-      puts literal
     end
 
   end
@@ -105,7 +104,6 @@ class Scanner
 
   def string
     while peek != '"' && !at_end?
-      puts @source[@current]
       if peek == "\n"
         @line += 1
       end
