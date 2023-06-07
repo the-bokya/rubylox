@@ -1,25 +1,23 @@
 require "./token.rb"
 class Scanner
-  @start = 0
-  @current = 0
-  @line = 1
-
-  @source = ""
-  @tokens = []
   def initialize(source)
+    @tokens = []
+    @start = 0
+    @current = 0
+    @line = 1
     @source = source
   end
-  
+
   def scan_tokens
     until at_end?
-      @start = current
+      @start = @current
       scan_token
     end
     @tokens << Token.new(TokenType::EOF, "", nil, line) # This line (tokens) will be returned
   end
 
   def at_end?
-    @current.to_i >= @source.length
+    @current >= @source.length
   end
 
   def scan_token
@@ -44,6 +42,12 @@ class Scanner
     when ';'
       addToken(TokenType::SEMICOLON)
     when '*' 
-      addToken(TokenType::STAR) 
+      addToken(TokenType::STAR)
     end
+  end
+  def advance
+    @out = @source[@current]
+    @current += 1
+    @out
+  end
 end
