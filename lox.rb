@@ -1,3 +1,4 @@
+require "./scanner.rb"
 #Create a Lox module to initiate the interpretation
 module Lox
   @had_error = false
@@ -36,10 +37,10 @@ module Lox
     end
   end
 
-  def self.run(line)
+  def self.run(source)
     @had_error and exit
-    puts "I'm here cuz master demands of me to be."
-    puts "Reading line #{line}"
+    @scanner = Scanner.new(source)
+    @tokens = @scanner.scan_tokens
   end
 
   def self.error(line, message)
