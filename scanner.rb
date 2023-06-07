@@ -45,6 +45,7 @@ class Scanner
       add_token(TokenType::STAR)
     else
       Lox.error(@line, "Unexpected character.")
+    end
   end
 
   def advance
@@ -57,5 +58,4 @@ class Scanner
     @text = @source[@start..@current - 1]
     @tokens << Token.new(type, @text, literal, @line)
   end
-
 end
