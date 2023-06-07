@@ -64,8 +64,14 @@ class Scanner
     when "\t"
     when "\n"
       @line += 1
+    when '"'
+      string
     else
-      Lox.error(@line, "Unexpected character #{c}")
+      if digit? c
+        number
+      else
+        Lox.error(@line, "Unexpected character #{c}")
+      end
     end
   end
 
@@ -76,8 +82,13 @@ class Scanner
   end
 
   def add_token(type, literal = nil)
-    @text = @source[@start..@current - 1]
-    @tokens << Token.new(type, @text, literal, @line)
+    if literal == nil
+      @text = @source[@start..@current - 1]
+      @tokens << Token.new(type, @text, literal, @line)
+    else
+      puts literal
+    end
+
   end
 
   def match (expected)
@@ -90,5 +101,24 @@ class Scanner
 
   def peek
     at_end? and "\0" or @source[@current]
+  end
+
+  def string
+    while peek != '"' && !at_end?
+      puts @source[@current]
+      if peek == "\n"
+        @line += 1
+      end
+      advance
+    end
+    if at_end?
+      Lox.error(@line, "Unterminated string")
+    end
+    advance
+    @value = @source[(@start + 1) .. @current-2]
+    add_token(TokenType::STRING, @value)
+  end
+  def digit?(c)
+    "0" <= c && c <= "9"
   end
 end

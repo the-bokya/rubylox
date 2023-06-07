@@ -40,6 +40,7 @@ module Lox
     @had_error and exit
     @scanner = Scanner.new(source)
     @tokens = @scanner.scan_tokens
+    puts @tokens
   end
 
   def self.error(line, message)
