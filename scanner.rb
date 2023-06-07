@@ -72,4 +72,8 @@ class Scanner
     @current += 1
     true
   end
+
+  def peek
+    at_end? and '\0' or @source[@current]
+  end
 end
