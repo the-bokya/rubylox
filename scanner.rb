@@ -121,7 +121,7 @@ class Scanner
   end
 
   def alpha?(c)
-    ("a" <= c && c <= "z") || ("A" <= c && c <= "Z") || "_"
+    ("a" <= c && c <= "z") || ("A" <= c && c <= "Z") || c == "_"
   end
 
   def alphanumeric?(c)
