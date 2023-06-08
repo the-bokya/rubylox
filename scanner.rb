@@ -69,6 +69,8 @@ class Scanner
     else
       if digit? c
         number
+      elsif alpha? c
+        identifier
       else
         Lox.error(@line, "Unexpected character #{c}")
       end
