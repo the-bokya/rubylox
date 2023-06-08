@@ -119,4 +119,12 @@ class Scanner
   def digit?(c)
     "0" <= c && c <= "9"
   end
+
+  def alpha?(c)
+    ("a" <= c && c <= "z") || ("A" <= c && c <= "Z") || "_"
+  end
+
+  def alphanumeric?(c)
+    alpha?(c) || digit?(c)
+  end
 end
