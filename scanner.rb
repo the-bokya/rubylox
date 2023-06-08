@@ -45,16 +45,16 @@ class Scanner
     when "*"
       add_token TokenType::STAR 
     when "!"
-      add_token((match("=") and TokenType::BANG_EQUAL or TokenType::BANG))
+      add_token((match("=") && TokenType::BANG_EQUAL || TokenType::BANG))
     when "="
-      add_token((match("=") and TokenType::EQUAL_EQUAL or TokenType::EQUAL))
+      add_token((match("=") && TokenType::EQUAL_EQUAL || TokenType::EQUAL))
     when "<"
-      add_token((match("=") and TokenType::LESS_EQUAL or TokenType::LESS))
+      add_token((match("=") && TokenType::LESS_EQUAL || TokenType::LESS))
     when ">"
-      add_token((match("=") and TokenType::GREATER_EQUAL or TokenType::GREATER))
+      add_token((match("=") && TokenType::GREATER_EQUAL || TokenType::GREATER))
     when "/"
       if match "/" #Eats up a comment
-        while (peek() != "\n" and !at_end?)
+        while (peek() != "\n" && !at_end?)
           advance
         end
       else
@@ -89,19 +89,25 @@ class Scanner
       @text = @source[@start..@current - 1]
       @tokens << Token.new(type, @text, literal, @line)
     end
-    puts type
+    puts "#{type}: #{literal}"
   end
 
   def match (expected)
-    if at_end? or @source[@current] != expected
-      false
-    end
+    if at_end? || @source[@current] != expected
     @current += 1
-    true
+      false
+    else
+    @current += 1
+      true
+    end
   end
 
   def peek
-    at_end? and "\0" or @source[@current]
+    at_end? && "\0" || @source[@current]
+  end
+
+  def peek_next
+    ((@current + 1 >= @source.length)  && "\0" || @source[@current + 1])
   end
 
   def string
@@ -118,6 +124,7 @@ class Scanner
     @value = @source[(@start + 1) .. @current-2]
     add_token(TokenType::STRING, @value)
   end
+
   def digit?(c)
     "0" <= c && c <= "9"
   end
@@ -140,5 +147,19 @@ class Scanner
       @type = TokenType::IDENTIFIER
     end
     add_token @type
+  end
+  
+  def number
+    while digit? peek
+      advance
+    end
+    if peek == "." && (digit? peek_next)
+      advance
+      while digit? peek
+        advance
+      end
+    end
+    @text = @source[@start .. @current - 1]
+    add_token TokenType::NUMBER, @text.to_f
   end
 end
