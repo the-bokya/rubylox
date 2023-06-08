@@ -6,6 +6,7 @@ class Scanner
     @current = 0
     @line = 1
     @source = source
+  @keywords = {"and" => TokenType::AND, "class" => TokenType::CLASS, "else" => TokenType::ELSE, "false" => TokenType::FALSE, "for" => TokenType::FOR, "fun" => TokenType::FUN, "if" => TokenType::IF, "nil" => TokenType::NIL, "or" => TokenType::OR, "print" => TokenType::PRINT, "return" => TokenType::RETURN, "super" => TokenType::SUPER, "this" => TokenType::THIS, "true" => TokenType::TRUE, "var" => TokenType::VAR, "while" => TokenType::WHILE}
   end
 
   def scan_tokens
@@ -87,9 +88,8 @@ class Scanner
     if literal == nil
       @text = @source[@start..@current - 1]
       @tokens << Token.new(type, @text, literal, @line)
-    else
     end
-
+    puts type
   end
 
   def match (expected)
@@ -128,5 +128,17 @@ class Scanner
 
   def alphanumeric?(c)
     alpha?(c) || digit?(c)
+  end
+
+  def identifier
+    while alphanumeric? peek
+      advance
+    end
+    @text = @source[@start .. @current - 1]
+    @type = @keywords[@text]
+    if @type == nil
+      @type = TokenType::IDENTIFIER
+    end
+    add_token @type
   end
 end
