@@ -4,3 +4,12 @@ asdf
 "
 fd
 // sdf
+var x += 2
+/*
+this is a multiline
+comment
+/*
+and it's nested /**/
+*/
+/**/
+*/
