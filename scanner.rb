@@ -177,6 +177,9 @@ class Scanner
         advance
         advance
         break
+      elsif at_end?
+        Lox.error(@line, "Unfinished multiline comment")
+        break
       end
       advance
     }
