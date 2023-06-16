@@ -53,10 +53,14 @@ class Scanner
     when ">"
       add_token((match("=") && TokenType::GREATER_EQUAL || TokenType::GREATER))
     when "/"
-      if match "/" #Eats up a comment
+      if peek == "/" #Eats up a comment
+        advance
         while (peek() != "\n" && !at_end?)
           advance
         end
+      elsif peek == "*" #Eats up a multiline comment
+        advance
+        multi 
       else
         add_token TokenType::SLASH
       end
@@ -161,5 +165,20 @@ class Scanner
     end
     @text = @source[@start .. @current - 1]
     add_token TokenType::NUMBER, @text.to_f
+  end
+
+  def multi
+    loop {
+      if peek() == "/" && peek_next() == "*"
+        advance
+        advance
+        multi
+      elsif peek() == "*" && peek_next() == "/"
+        advance
+        advance
+        break
+      end
+      advance
+    }
   end
 end
