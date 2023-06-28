@@ -34,6 +34,7 @@ module Lox
     else
       self.run @lines
     end
+  file.close
   end
 
   def self.run(source)
